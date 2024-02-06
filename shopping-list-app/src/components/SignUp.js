@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import './SignInUp.css';
+import { redirect } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore"; 
+import {db} from '../firebase';
+
 import { FaUser, FaLock, FaHouseUser, FaAmilia } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
+import './SignInUp.css';
+
 
 const SignUp = () =>{
     const [name, setName] = useState("");
@@ -11,9 +18,35 @@ const SignUp = () =>{
     const [confirmPassword, setConfirmPassword] = useState("");
     const [household, setHouseHold] = useState("");
 
-    const handleRegister  = (e) =>{
+    const navigate = useNavigate();
+
+    const handleRegister = async(e) =>{
         e.preventDefault();
-        console.log(name, username, email, password, confirmPassword, household);
+        if (password === confirmPassword){
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                handleSave(user.uid);
+                navigate('/login');
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+            })
+        }else{
+            alert("passwords doesn't match");
+        }
+    }
+
+    const handleSave = async(uid) =>{
+        await setDoc(doc(db, "users", uid), {
+            name: name,
+            username: username,
+            email: email,
+            household: household
+          });
     }
 
     return(
