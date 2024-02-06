@@ -12,7 +12,7 @@ const Recipes = () =>{
             navigate('/login');
           }
         });
-      }, []);
+      }, [navigate]);
 
     return(
         <>

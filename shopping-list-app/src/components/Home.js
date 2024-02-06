@@ -12,7 +12,7 @@ const Home = () => {
             navigate('/login');
           }
         });
-      }, []);
+      }, [navigate]);
 
 return(
     <>

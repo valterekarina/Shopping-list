@@ -12,7 +12,7 @@ const ProductList = () =>{
             navigate('/login');
           }
         });
-      }, []);
+      }, [navigate]);
 
     return(
         <>

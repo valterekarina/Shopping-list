@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { redirect } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc, collection, query, where, getDocs } from "firebase/firestore"; 
 import {db} from '../firebase';
 
 import { FaUser, FaLock, FaHouseUser, FaAmilia } from "react-icons/fa";
@@ -22,22 +21,30 @@ const SignUp = () =>{
 
     const handleRegister = async(e) =>{
         e.preventDefault();
-        if (password === confirmPassword){
-            const auth = getAuth();
-            createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                handleSave(user.uid);
-                navigate('/login');
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-            })
+
+        const q = query(collection(db, "users"), where("username", "==", username));
+        
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size==0){
+            if (password === confirmPassword){
+                const auth = getAuth();
+                createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    handleSave(user.uid);
+                    navigate('/login');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode, errorMessage);
+                })
+            }else{
+                alert("passwords doesn't match");
+            }
         }else{
-            alert("passwords doesn't match");
-        }
+            console.log('existing username');
+        }      
     }
 
     const handleSave = async(uid) =>{

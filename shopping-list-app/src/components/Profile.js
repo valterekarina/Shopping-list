@@ -12,7 +12,7 @@ const Profile = () =>{
             navigate('/login');
           }
         });
-      }, []);
+      }, [navigate]);
 
     return(
         <>
