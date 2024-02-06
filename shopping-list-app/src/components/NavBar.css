@@ -1,0 +1,52 @@
+.container {
+    background: url('./assets/background.jpg')
+    no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.navbar{
+    height: 60px;
+    position: relative;
+}
+
+.nav-elements ul{
+    display: flex;
+    list-style-type: none;
+}
+
+.nav-elements ul li {
+    margin: 0 15px;
+}
+  
+.nav-elements ul a {
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-elements ul a:hover{
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+  
+.nav-elements ul a.active {
+  font-weight: 600;
+  position: relative;
+  text-decoration: underline;
+}
+
+.logo{
+    font-size: 28px;
+    color: #fff;
+}
+
+/* https://www.codevertiser.com/reactjs-responsive-navbar/ */
