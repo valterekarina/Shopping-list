@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import {db} from '../firebase';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 import { FaUser, FaLock  } from "react-icons/fa";
 import './SignInUp.css';
 
@@ -6,8 +11,31 @@ const SignIn = () =>{
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin = (e) => {
+    const navigate = useNavigate();
+
+    const handleLogin = async(e) => {
         e.preventDefault();
+        var email = "";
+
+        const q = query(collection(db, "users"), where("username", "==", username));
+        
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size>0){
+            const userDoc = querySnapshot.docs[0];
+            email = userDoc.data().email;
+        }
+
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            navigate("/");
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+
+            console.log(errorCode, errorMessage);
+        });
     }
 
     return(
