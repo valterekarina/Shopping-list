@@ -1,8 +1,5 @@
 .container {
-    background: url('./assets/background.jpg')
-    no-repeat;
-    background-size: cover;
-    background-position: center;
+    background-color: #4f2f59;
     margin: 0 auto;
     padding: 0 30px;
     display: flex;

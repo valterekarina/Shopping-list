@@ -1,0 +1,59 @@
+.Modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .8);
+}
+
+.Modal .container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    background: #4f2f59;
+    padding: 20px;
+    width: 420px;
+    height: 70%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0, .2);
+    flex-direction: column;
+}
+
+.Modal .container h1{
+    color: #fff;
+}
+
+.Modal .container .input-box{
+    margin: 10px 0;
+}
+
+.Modal .button-div{
+    width: 100%;
+    text-align: center;
+}
+
+.Modal .button-div button{
+    margin: 10px;
+    font-size: 16px;
+    padding: 5px;
+    border: none;
+    background-color: #fff;
+    border-radius: 15px;
+    width: 40%;
+    height: 30px;
+}
+
+@media (max-width:480px) {
+    .Modal .container{
+        width: 90%;
+    }
+}
+
+.Modal .button-div .delete-button{
+    background: rgba(244, 111, 111, 0.798);
+}
