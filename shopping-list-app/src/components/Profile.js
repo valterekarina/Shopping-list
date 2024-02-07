@@ -3,7 +3,7 @@ import { NavBar } from "./NavBar";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from '../firebase';
 import { deleteUser, updatePassword } from "firebase/auth";
-import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import Modal from "./helpers/Modal";
 
 import './Profile.css';
@@ -14,9 +14,11 @@ const Profile = () =>{
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [household, setHousehold] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -54,9 +56,36 @@ const Profile = () =>{
     }
   }
 
+  const handleEditProfile = (e) =>{
+    e.preventDefault();
+    setShowModal2(true);
+  }
+  
+  const handleCancelProfileEdit = () =>{
+    getUserData(auth.currentUser.email);
+    setShowModal2(false);
+  }
+
+  const handleSaveProfile = async (e) =>{
+    e.preventDefault();
+    const userRef = doc(db, "users", auth.currentUser.uid);
+    await updateDoc(userRef, {
+      username: username,
+      name: name
+    });
+    setShowModal2(false);
+    getUserData(auth.currentUser.email);
+  }
+
   const handlePasswordChange = (e) =>{
     e.preventDefault();
     setShowModal(true)
+  }
+
+  const handleCancelChangePassword = () =>{
+    setConfirmPassword("");
+    setPassword("");
+    setShowModal(false)
   }
 
   const handleSavePassword = (e) =>{
@@ -65,6 +94,8 @@ const Profile = () =>{
       const user = auth.currentUser;
       updatePassword(user, password).then(() =>{
         setShowModal(false);
+        setPassword("");
+        setConfirmPassword("");
       }).catch((error)=> {
         console.log(error.message);
       })
@@ -96,7 +127,7 @@ const Profile = () =>{
                 <label className="profile-label">Household</label>
                 <input type="text" placeholder="Household" value={household} readOnly />
               </div>
-                <button onClick={handlePasswordChange}>Edit</button>
+                <button onClick={handleEditProfile}>Edit</button>
                 <button onClick={handlePasswordChange}>Change password</button>
                 <button className="delete-button" onClick={handleDeleteProfile}>Delete profile</button>
             </form>
@@ -114,8 +145,25 @@ const Profile = () =>{
                       <div className="input-box">
                         <input type='password' placeholder="Confirm New Password" value={confirmPassword} onChange={e =>setConfirmPassword(e.target.value)} required/>
                       </div>
-                      <button className="delete-button" onClick={() => setShowModal(false)}>Cancel</button>
+                      <button className="delete-button" onClick={handleCancelChangePassword}>Cancel</button>
                       <button onClick={handleSavePassword}>Save</button>
+                    </div>
+                  </form>
+                </div>
+        </Modal>
+        <Modal showModal={showModal2} setShowModal={setShowModal2}>
+                <div>
+                  <form>
+                    <h1>Edit Profile info</h1>
+                    <div className="button-div">
+                      <div className="input-box">
+                        <input type='text' placeholder="Name" value={name} onChange={e =>setName(e.target.value)} required/>
+                      </div>
+                      <div className="input-box">
+                        <input type='text' placeholder="Username" value={username} onChange={e =>setUsername(e.target.value)} required/>
+                      </div>
+                      <button className="delete-button" onClick={handleCancelProfileEdit}>Cancel</button>
+                      <button onClick={handleSaveProfile}>Save</button>
                     </div>
                   </form>
                 </div>
