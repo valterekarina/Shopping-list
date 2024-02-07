@@ -5,7 +5,7 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import './SignInUp.css';
 
-const SignIn = () =>{
+const PasswordReset = () =>{
     const [email, setEmail] = useState("");
 
     const navigate = useNavigate();
@@ -45,4 +45,4 @@ const SignIn = () =>{
     );
 }
 
-export default SignIn;
+export default PasswordReset;
