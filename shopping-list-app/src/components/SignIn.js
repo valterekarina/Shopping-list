@@ -52,7 +52,7 @@ const SignIn = () =>{
                         <FaLock className="icon"/>
                     </div>
                     <div className="forget-password">
-                        <a href="/">Forget Password?</a>
+                        <a href="/forgot-password">Forget Password?</a>
                     </div>
 
                     <button onClick={handleLogin}>Login</button>

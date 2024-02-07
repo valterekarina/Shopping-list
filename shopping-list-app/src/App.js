@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import ProductList from './components/ProductList';
 import Recipes from './components/Recipes';
+import PasswordReset from './components/PasswordReset';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/product-list" element={<ProductList />} />
           <Route path="/recipes" element={<Recipes />} />
+          <Route path="/forgot-password" element={<PasswordReset />} />
       </Routes>
     </BrowserRouter>
 

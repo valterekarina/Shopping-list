@@ -25,7 +25,7 @@ const SignUp = () =>{
         const q = query(collection(db, "users"), where("username", "==", username));
         
         const querySnapshot = await getDocs(q);
-        if (querySnapshot.size==0){
+        if (querySnapshot.size===0){
             if (password === confirmPassword){
                 const auth = getAuth();
                 createUserWithEmailAndPassword(auth, email, password)
